@@ -16,21 +16,21 @@ class Linkedin:
         if (browser == "firefox"):
             if (len(linkedinEmail)>0):
                 print(platform.system())
-                if (platform.system == "Linux"):
-                    prYellow("On Linux you need to define profile path to run the bot with Firefox. Go about:profiles find root directory of your profile paste in line 8 of config file next to firefoxProfileRootDir ")
-                    exit()
-                else: 
-                    self.driver = webdriver.Firefox()
-                    self.driver.get("https://www.linkedin.com/login?trk=guest_homepage-basic_nav-header-signin")
-                    prYellow("Trying to log in linkedin.")
-                    try:    
-                        self.driver.find_element("id","username").send_keys(linkedinEmail)
-                        self.driver.find_element("id","password").send_keys(config.password)
-                        time.sleep(5)
-                        self.driver.find_element("xpath",'//*[@id="organic-div"]/form/div[3]/button').click()
-                    except Exception as e: 
-                        prRed(e)
+                self.driver = webdriver.Firefox()
+                self.driver.get("https://www.linkedin.com/login?trk=guest_homepage-basic_nav-header-signin")
+                prYellow("Trying to log in linkedin.")
+                try:    
+                    self.driver.find_element("id","username").send_keys(linkedinEmail)
+                    self.driver.find_element("id","password").send_keys(config.password)
+                    time.sleep(5)
+                    self.driver.find_element("xpath",'//*[@id="organic-div"]/form/div[3]/button').click()
+                except Exception as e: 
+                    prRed(e)
             else:
+                if (platform.system() == "Linux"):
+                    if (config.firefoxProfileRootDir == ""):
+                        prYellow("On Linux you need to define profile path to run the bot with Firefox. Go about:profiles find root directory of your profile paste in line 8 of config file next to firefoxProfileRootDir ")
+                        exit()
                 self.driver = webdriver.Firefox()
         elif (browser == "chrome"):
             self.driver = webdriver.Chrome()
